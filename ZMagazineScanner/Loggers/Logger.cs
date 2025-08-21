@@ -37,7 +37,8 @@ namespace ZMagazineScanner.Loggers
             {
                 string path = String.Format(@"{0}Url_Scanner_Log_{1}_{2}_{3}.txt", _localLogLocation, DateTime.Now.Month, DateTime.Now.Day, DateTime.Now.Year);
 
-                using (StreamWriter sw = new StreamWriter(path, append: true))
+                using (var fs = new FileStream(path, FileMode.Append, FileAccess.Write, FileShare.ReadWrite))
+                using (var sw = new StreamWriter(fs))
                 {
                     sw.WriteLine(logMessage);
                 }
