@@ -1,6 +1,6 @@
 Scans for existing magazine issues on a website.
 
-Needs an appsettins.json to run. Use your own appropriate values.
+Needs an appsettings.json in the base directory of the project to run. Use your own appropriate values.
 
 ```
 {
