@@ -1,5 +1,4 @@
 ﻿using ZMagazineScanner.Classes;
-using ZMagazineScanner.Entities;
 using ZMagazineScanner.Loggers;
 using ZMagazineScanner.Utilities;
 using System;

@@ -1,5 +1,4 @@
-﻿using ZMagazineScanner.Entities;
-using ZMagazineScanner.Loggers;
+﻿using ZMagazineScanner.Loggers;
 using ZMagazineScanner.Utilities;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Configuration.Json;
