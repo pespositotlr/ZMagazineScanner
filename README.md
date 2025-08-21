@@ -2,7 +2,8 @@ Scans for existing magazine issues on a website.
 
 Needs an appsettins.json to run. Use your own appropriate values.
 
-```{
+```
+{
   "discordToken": "",
   "serverId": "",
   "generalChannelId": "",
