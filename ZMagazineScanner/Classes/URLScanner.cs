@@ -1,6 +1,6 @@
-﻿using ZMangaScanner.Entities;
-using ZMangaScanner.Loggers;
-using ZMangaScanner.Utilities;
+﻿using ZMagazineScanner.Entities;
+using ZMagazineScanner.Loggers;
+using ZMagazineScanner.Utilities;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Configuration.Json;
 using System;
@@ -11,7 +11,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using System.Buffers;
 
-namespace ZMangaScanner.Classes
+namespace ZMagazineScanner.Classes
 {
     /// <summary>
     /// Scans specific urls for if a valid page is found there. Allows for checking a range of IDs. Supports searching for issues by name.

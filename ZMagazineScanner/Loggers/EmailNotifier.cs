@@ -3,7 +3,7 @@ using System;
 using System.Net;
 using System.Net.Mail;
 
-namespace ZMangaScanner.Loggers
+namespace ZMagazineScanner.Loggers
 {
     public class EmailNotifier
     {

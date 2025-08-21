@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace ZMangaScanner.Entities
+namespace ZMagazineScanner.Entities
 {
     public class ScannerSettings
     {

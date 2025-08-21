@@ -3,9 +3,9 @@ using Discord.WebSocket;
 using Microsoft.Extensions.Configuration;
 using System;
 using System.Threading.Tasks;
-using ZMangaScanner.Loggers;
+using ZMagazineScanner.Loggers;
 
-namespace ZMangaScanner.Loggers
+namespace ZMagazineScanner.Loggers
 {
     class DiscordBot
     {

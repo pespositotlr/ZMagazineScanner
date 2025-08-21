@@ -12,11 +12,10 @@ using System.Net.Sockets;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
-using ZMangaScanner.Entities;
-using ZMangaScanner.Loggers;
+using ZMagazineScanner.Loggers;
 using static System.Net.WebRequestMethods;
 
-namespace ZMangaScanner.Utilities
+namespace ZMagazineScanner.Utilities
 {
     public static class WebHelper
     {
