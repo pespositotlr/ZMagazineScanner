@@ -75,7 +75,7 @@ namespace ZMagazineScanner.Classes
                         if (!String.IsNullOrEmpty(searchValue)) {
                             if (WebHelper.IsSearchResultFound(currentIssueData, searchValue))
                             {
-                                await RunFoundUrlProcess(currentInt);
+                                await RunFoundSearchValueProcess(currentInt);
                                 rangeDone = true;
                                 searchResultFound = true;
                             }
@@ -151,13 +151,13 @@ namespace ZMagazineScanner.Classes
             await Task.Delay(milliseconds);
         }
 
-        private async Task RunFoundUrlProcess(int issueId)
+        private async Task RunFoundSearchValueProcess(int issueId)
         {
             var detailsURL = config["detailsURL"];
             var foundURL = detailsURL.Replace("{magazineId}", config["magazineId"]);
             foundURL = foundURL.Replace("{issueId}", issueId.ToString());
 
-            logger.Log(String.Format("########## URL found! {0} found at {1}", foundURL, DateTime.Now.ToString()));
+            logger.Log(String.Format("########## Searched value found! {0} found at {1}", foundURL, DateTime.Now.ToString()));
             emailNotifier.SendNotificationUrlFound(foundURL);
             return;
         }
