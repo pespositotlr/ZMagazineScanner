@@ -18,7 +18,6 @@ namespace ZMagazineScanner.Classes
     /// </summary>
     public class URLScanner
     {
-        private ScannerSettings settings;
         IConfigurationRoot config;
         Logger logger;
         EmailNotifier emailNotifier;
@@ -28,15 +27,11 @@ namespace ZMagazineScanner.Classes
 
         public URLScanner(int maximumAttempts = 100000000, int timeBetweenAttemptsMilliseconds = 3)
         {
-            settings = new ScannerSettings();
             var builder = new ConfigurationBuilder()
                 .AddJsonFile($"appsettings.json", true, true);
             config = builder.Build();
             logger = new Logger(config["localLogLocation"], Convert.ToBoolean(config["logToTextFile"]));
             emailNotifier = new EmailNotifier(config);
-
-            settings.MaximumAttempts = maximumAttempts;
-            settings.TimeBetweenAttemptsMilliseconds = timeBetweenAttemptsMilliseconds;
         }
 
         public async Task CheckIssueRange(int startingInt = 0, int endingInt = 0, string searchValue = "")
@@ -44,8 +39,6 @@ namespace ZMagazineScanner.Classes
             //await bot.LogToDiscord();
             attemptNumber = 1;
             int currentInt = startingInt;
-            TimeSpan t = TimeSpan.FromMilliseconds(settings.TimeBetweenAttemptsMilliseconds);
-            string timeBetweenAttemptsString = t.Minutes.ToString();
             HashSet<int> foundIssueIds = new HashSet<int>();
             Dictionary<int, string> foundIssueIdsToValues= new Dictionary<int, string>();
             string currentUrl = StringHelper.SetUrlToSpecificIDs(config["detailsAPIURL"], Convert.ToInt32(config["magazineId"]), config["secretId"], startingInt);
@@ -125,6 +118,8 @@ namespace ZMagazineScanner.Classes
                     }
                 }
             }
+
+            remainingTasks--;
 
             return;
         }
