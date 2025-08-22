@@ -23,6 +23,7 @@ namespace ZMagazineScanner.Classes
         int attemptNumber;
         int remainingTasks = 0;
         bool searchResultFound = false;
+        Dictionary<int, string> foundIssueIdsToValuesParallel = new Dictionary<int, string>();
 
         public URLScanner(int maximumAttempts = 100000000, int timeBetweenAttemptsMilliseconds = 3)
         {
@@ -39,7 +40,7 @@ namespace ZMagazineScanner.Classes
             attemptNumber = 1;
             int currentInt = startingInt;
             HashSet<int> foundIssueIds = new HashSet<int>();
-            Dictionary<int, string> foundIssueIdsToValues= new Dictionary<int, string>();
+            Dictionary<int, string> foundIssueIdsToValues = new Dictionary<int, string>();
             string currentUrl = StringHelper.SetUrlToSpecificIDs(config["detailsAPIURL"], Convert.ToInt32(config["magazineId"]), config["secretId"], startingInt);
             bool rangeDone = false;
             bool issueFound = false;
@@ -125,6 +126,11 @@ namespace ZMagazineScanner.Classes
                 }
             }
 
+            foreach (KeyValuePair<int, string> kvp in foundIssueIdsToValues)
+            {
+                foundIssueIdsToValuesParallel.Add(kvp.Key, kvp.Value);
+            }
+
             remainingTasks--;
 
             return;
@@ -132,6 +138,9 @@ namespace ZMagazineScanner.Classes
 
         public async Task<bool> CheckIssueRangeParallel(int startindIssueId = 0, int issuesPerTask = 50, int issuesToCheck = 800, string searchValues = "")
         {
+            logger.Log(String.Format("Beginning parallel scan of {0} items from {1} to {2}", issuesToCheck, startindIssueId, issuesPerTask));
+            if(!String.IsNullOrWhiteSpace(searchValues))
+                logger.Log(String.Format("---Searching for value: ", searchValues));
             var tasks = new List<Task>();
             tasks.Add(CheckIssueRange(0, 0));
             var numOfTasks = issuesToCheck / issuesPerTask;
@@ -145,6 +154,16 @@ namespace ZMagazineScanner.Classes
             }
 
             await Task.WhenAll(tasks);
+
+            //Print full list
+            logger.Log("###Full found issues list:");
+            logger.Log(foundIssueIdsToValuesParallel.Count + " items found");
+            var detailsURL = config["detailsURL"].Replace("{magazineId}", config["magazineId"]);
+            foreach (KeyValuePair<int, string> kvp in foundIssueIdsToValuesParallel)
+            {
+                var updatedURL = detailsURL.Replace("{issueId}", kvp.Key.ToString());
+                logger.Log(kvp.Key + " : " + updatedURL);
+            }
 
             if (searchResultFound)
                 logger.Log(String.Format("All done! Search Found: {0}", searchResultFound));
