@@ -64,7 +64,14 @@ namespace ZMagazineScanner.Classes
                     if (issueFound)
                     {
                         logger.Log(String.Format("Issue found at {0}.", currentInt));
-                        var foundValue = currentIssueData.Substring(currentIssueData.IndexOf(config["dataStartIndexValue"]) + config["dataStartIndexValue"].Length + 2, Convert.ToInt32(config["issueTitleLength"]));
+                        var foundValue = string.Empty;
+                        int startIndex = currentIssueData.IndexOf(config["dataStartIndexValue"]);
+                        int issueTitleLength = Convert.ToInt32(config["issueTitleLength"]);
+                        if ((startIndex + issueTitleLength + 2) <= (currentIssueData.Length - 1))
+                            foundValue = currentIssueData.Substring(startIndex + issueTitleLength + 2, issueTitleLength);
+                        else
+                            foundValue = currentIssueData.Substring(startIndex);
+
                         foundIssueIds.Add(currentInt);
                         foundIssueIdsToValues.Add(currentInt, foundValue);
 

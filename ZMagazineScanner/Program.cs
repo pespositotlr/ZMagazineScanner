@@ -14,8 +14,8 @@ namespace ZMagazineScanner
         static async Task Main(string[] args)
         {
             URLScanner scanner = new URLScanner();
-            int startingInt = 24195;
-            int issuesToCheck = 3000;
+            int startingInt = 22135;
+            int issuesToCheck = 1000;
             var found = false;
             //await scanner.CheckIssueRange(startingInt, startingInt + 1000, "");
 
