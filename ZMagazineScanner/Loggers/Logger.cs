@@ -51,7 +51,7 @@ namespace ZMagazineScanner.Loggers
 
         private void LogToConsole(string logMessage)
         {
-            //Console.OutputEncoding = System.Text.Encoding.UTF8;
+            Console.OutputEncoding = System.Text.Encoding.UTF8;
             Console.WriteLine(logMessage);
         }
     }

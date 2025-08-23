@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 
 namespace ZMagazineScanner.Utilities
@@ -41,5 +42,11 @@ namespace ZMagazineScanner.Utilities
             return source.Remove(place, find.Length).Insert(place, replace);
         }
 
+        public static string StripNonPrintableUnicode(string input)
+        {  
+            // Removes characters that are not in the printable Unicode categories
+           // (e.g., control characters, format characters, unassigned characters)
+            return Regex.Replace(input, @"\p{C}", "");
+        }
     }
 }

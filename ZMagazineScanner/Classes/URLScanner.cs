@@ -65,21 +65,16 @@ namespace ZMagazineScanner.Classes
                     if (issueFound)
                     {
                         logger.Log(String.Format("Issue found at {0}.", currentInt));
-                        var foundValue = string.Empty;
-                        int startIndex = currentIssueData.IndexOf(config["dataStartIndexValue"]);
-                        int issueTitleLength = Convert.ToInt32(config["issueTitleLength"]);
-                        if ((startIndex + issueTitleLength + 2) <= (currentIssueData.Length - 1))
-                            foundValue = currentIssueData.Substring(startIndex + issueTitleLength + 2, issueTitleLength);
-                        else
-                            foundValue = currentIssueData.Substring(startIndex);
+                        string issueTitle = GetIssueTitle(currentIssueData);
 
                         foundIssueIds.Add(currentInt);
-                        foundIssueIdsToValues.Add(currentInt, foundValue);
+                        foundIssueIdsToValues.Add(currentInt, issueTitle);
 
-                        logger.Log(foundValue);
+                        logger.Log(issueTitle);
 
                         //If searched issue found, noftify and stop checking
-                        if (!String.IsNullOrEmpty(searchValue)) {
+                        if (!String.IsNullOrEmpty(searchValue))
+                        {
                             if (WebHelper.IsSearchResultFound(currentIssueData, searchValue))
                             {
                                 await RunFoundSearchValueProcess(currentInt);
@@ -136,6 +131,28 @@ namespace ZMagazineScanner.Classes
             return;
         }
 
+        private string GetIssueTitle(string currentIssueData)
+        {
+            var issueTitle = string.Empty;
+
+            issueTitle = StringHelper.StripNonPrintableUnicode(currentIssueData);
+            int startIndex = issueTitle.IndexOf(config["dataStartIndexValue"]);
+            int issueTitleMaxLength = Convert.ToInt32(config["issueTitleLength"]);
+
+            if ((startIndex + config["dataStartIndexValue"].Length) <= (issueTitle.Length - 1))
+                issueTitle = issueTitle.Substring(startIndex + config["dataStartIndexValue"].Length, issueTitleMaxLength);
+            else
+                issueTitle = issueTitle.Substring(startIndex);
+
+            if (issueTitle.Contains("("))
+                issueTitle = issueTitle.Substring(0, issueTitle.IndexOf("("));
+
+            if (issueTitle.Contains("$"))
+                issueTitle = issueTitle.Substring(issueTitle.IndexOf("$"));
+
+            return issueTitle;
+        }
+
         public async Task<bool> CheckIssueRangeParallel(int startindIssueId = 0, int issuesPerTask = 50, int issuesToCheck = 800, string searchValues = "")
         {
             logger.Log(String.Format("Beginning parallel scan of {0} items from {1} to {2}", issuesToCheck, startindIssueId, issuesPerTask));
@@ -162,7 +179,7 @@ namespace ZMagazineScanner.Classes
             foreach (KeyValuePair<int, string> kvp in foundIssueIdsToValuesParallel)
             {
                 var updatedURL = detailsURL.Replace("{issueId}", kvp.Key.ToString());
-                logger.Log(kvp.Key + " : " + updatedURL);
+                logger.Log(kvp.Key + " - " + kvp.Value + " : " + updatedURL);
             }
 
             if (searchResultFound)
