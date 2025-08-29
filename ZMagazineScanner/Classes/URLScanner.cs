@@ -176,7 +176,7 @@ namespace ZMagazineScanner.Classes
             logger.Log("###Full found issues list:");
             logger.Log(foundIssueIdsToValuesParallel.Count + " items found");
             var detailsURL = config["detailsURL"].Replace("{magazineId}", config["magazineId"]);
-            foreach (KeyValuePair<int, string> kvp in foundIssueIdsToValuesParallel)
+            foreach (KeyValuePair<int, string> kvp in foundIssueIdsToValuesParallel.OrderBy(kv => kv.Key))
             {
                 var updatedURL = detailsURL.Replace("{issueId}", kvp.Key.ToString());
                 logger.Log(kvp.Key + " - " + kvp.Value + " : " + updatedURL);
