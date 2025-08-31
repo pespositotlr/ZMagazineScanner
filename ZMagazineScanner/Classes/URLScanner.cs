@@ -139,7 +139,7 @@ namespace ZMagazineScanner.Classes
             int startIndex = issueTitle.IndexOf(config["dataStartIndexValue"]);
             int issueTitleMaxLength = Convert.ToInt32(config["issueTitleLength"]);
 
-            if ((startIndex + config["dataStartIndexValue"].Length) <= (issueTitle.Length - 1))
+            if ((startIndex + config["dataStartIndexValue"].Length + issueTitleMaxLength) <= (issueTitle.Length - 1))
                 issueTitle = issueTitle.Substring(startIndex + config["dataStartIndexValue"].Length, issueTitleMaxLength);
             else
                 issueTitle = issueTitle.Substring(startIndex);
