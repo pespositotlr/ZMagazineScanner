@@ -50,7 +50,7 @@ namespace ZMagazineScanner.Utilities
 
         public static bool IsIssueFound(string rawData)
         {
-            if (rawData.Contains("コンテンツが見つかりませんでした"))
+            if (rawData.Contains("コンテンツが見つかりませんでした") || rawData.Length < 30)
                 return false;
 
             return true;
