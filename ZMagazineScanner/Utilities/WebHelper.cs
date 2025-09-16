@@ -40,8 +40,8 @@ namespace ZMagazineScanner.Utilities
                 }
                 catch (HttpRequestException e)
                 {
-                    EmailNotifier emailNotifier = new EmailNotifier(config);
-                    emailNotifier.SendNotificationEmailError("GetTokenQueryString", e.ToString());
+                    Logger logger = new Logger(config["localLogLocation"], Convert.ToBoolean(config["logToTextFile"]));
+                    logger.Log(String.Format("Got an error trying to get url. Error: {0}. Current time is: {1}", e.ToString(), DateTime.Now.ToString()));
                 }
             }
 
